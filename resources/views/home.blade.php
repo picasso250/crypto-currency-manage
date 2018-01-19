@@ -45,6 +45,13 @@
                             </td>
                           </tr>
                         @endforeach
+                        <tr>
+                          <td>总值</td>
+                          <td></td>
+                          <td><strong>{{ $total }}</strong></td>
+                          <td></td>
+                          <td>
+                          </td>
                       </tbody>
                     
                     </table>
