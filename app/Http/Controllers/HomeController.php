@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
 use App\Invest;
 
 class HomeController extends Controller
@@ -92,42 +93,24 @@ class HomeController extends Controller
      */
     public function refresh_value_real(Request  $request)
     {
-      $json_raw = '
-[
-    {
-        "id": "bitcoin", 
-        "name": "Bitcoin", 
-        "symbol": "BTC", 
-        "rank": "1", 
-        "price_usd": "11709.0", 
-        "price_btc": "1.0", 
-        "24h_volume_usd": "14017300000.0", 
-        "market_cap_usd": "196851122550", 
-        "available_supply": "16811950.0", 
-        "total_supply": "16811950.0", 
-        "max_supply": "21000000.0", 
-        "percent_change_1h": "-0.74", 
-        "percent_change_24h": "2.95", 
-        "percent_change_7d": "-16.03", 
-        "last_updated": "1516356864"
-    }
-]';
-      $json_raw = file_get_contents('https://api.coinmarketcap.com/v1/ticker/');
+      
+      $key = 'key_coinmarketcap_ticker';
+      $minutes = 10;
+      $json_raw = Cache::remember($key, $minutes, function () {
+          $json_raw = file_get_contents('https://api.coinmarketcap.com/v1/ticker/');
+          return $json_raw;
+      });
       $json = json_decode($json_raw);
       $map = [];
       foreach ($json as $key => $value) {
         $map[$value->symbol] = $value;
       }
-      // print_r($map);exit;
       
       $invests = Invest::orderBy('value_real', "DESC")->get();
       foreach ($invests as $key => $invest) {
         $type = $invest->type;
-        // echo $type,PHP_EOL;
-        // var_dump(isset($map[$type]));
         if (isset($map[$type])) {
           $value_real = $invest->value * $map[$type]->price_usd;
-          // var_dump($value_real);exit;
           $invest->value_real = $value_real;
           $invest->save();
         }
