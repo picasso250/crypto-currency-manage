@@ -14,8 +14,6 @@
                         </div>
                     @endif
 
-                    <a href="/invest/add" class="btn btn-default">增加投资项目</a>
-
                     <table class="table">
                       <thead>
                         <tr>
@@ -45,7 +43,9 @@
                           <td></td>
                           <td><strong>{{ round($total,2) }}</strong></td>
                           <td></td>
+                          <td></td>
                           <td>
+                            <a href="/invest/add" class="btn btn-default btn-sm">增加项目</a>
                           </td>
                       </tbody>
 
