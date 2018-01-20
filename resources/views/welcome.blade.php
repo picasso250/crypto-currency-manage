@@ -48,6 +48,12 @@
             .title {
                 font-size: 84px;
             }
+            .description {
+              margin-bottom: 1em;
+              color: #1f1f1f;
+              font-size: large;
+              margin-top: 2em;
+            }
 
             .links > a {
                 color: #636b6f;
@@ -79,14 +85,15 @@
 
             <div class="content">
                 <div class="title m-b-md">
-                    Laravel
+                    Crypto-Currency-Wallet
+                </div>
+
+                <div class="description">
+                    Know Your Crypto-Currency's value at once.
                 </div>
 
                 <div class="links">
-                    <a href="https://laravel.com/docs">Documentation</a>
-                    <a href="https://laracasts.com">Laracasts</a>
-                    <a href="https://laravel-news.com">News</a>
-                    <a href="https://forge.laravel.com">Forge</a>
+
                     <a href="https://github.com/laravel/laravel">GitHub</a>
                 </div>
             </div>
