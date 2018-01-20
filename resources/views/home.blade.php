@@ -16,7 +16,7 @@
 
                     <a href="/invest/add" class="btn btn-default">增加投资项目</a>
                     <a href="/invest/refresh/value/real" class="btn btn-default pull-right">刷新价格</a>
-                    
+
                     <table class="table">
                       <thead>
                         <tr>
@@ -41,7 +41,7 @@
 
                                   <button class="btn btn-danger btn-sm" >Delete</button>
                               </form>
-                              
+                              <a href="/invest/{{ $invest->id }}/edit" class="btn btn-default btn-sm">编辑</a>
                             </td>
                           </tr>
                         @endforeach
@@ -53,7 +53,7 @@
                           <td>
                           </td>
                       </tbody>
-                    
+
                     </table>
                 </div>
             </div>

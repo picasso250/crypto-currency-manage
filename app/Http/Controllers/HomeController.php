@@ -34,7 +34,7 @@ class HomeController extends Controller
           'total' => $total,
         ]);
     }
-    
+
     /**
      * Add Invest
      *
@@ -44,7 +44,7 @@ class HomeController extends Controller
     {
       return view('invest.add');
     }
-    
+
     /**
      * Add Invest
      *
@@ -54,15 +54,15 @@ class HomeController extends Controller
     {
       $validator = Validator::make($request->all(), [
           'type' => 'required|max:255',
+          'value' => 'required|numeric|min:0',
       ]);
 
       if ($validator->fails()) {
-          return redirect('/task/add')
+          return redirect('/invest/add')
               ->withInput()
               ->withErrors($validator);
       }
 
-      // Create The Task...
       $inv = new Invest;
       $inv->user_id = Auth::id();
       $inv->type = $request->type;
@@ -73,7 +73,44 @@ class HomeController extends Controller
 
       return redirect('/home');
     }
-    
+
+    /**
+     * Edit Invest page
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function edit(Request  $request)
+    {
+      $invest = Invest::findOrFail($request->id);
+      return view('invest.edit', compact('invest'));
+    }
+
+    /**
+     * Edit Invest
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function edit_do(Request  $request)
+    {
+      $inv = Invest::findOrFail($request->id);
+
+      $validator = Validator::make($request->all(), [
+          'value' => 'required|numeric|min:0',
+      ]);
+      if ($validator->fails()) {
+          return redirect('/invest/'.$request->id.'/edit')
+              ->withInput()
+              ->withErrors($validator);
+      }
+
+      $inv->user_id = Auth::id();
+      $inv->value = $request->value;
+      $inv->site = $request->site;
+      $inv->save();
+
+      return redirect('/home');
+    }
+
     /**
      * Delete Invest
      *
@@ -82,10 +119,10 @@ class HomeController extends Controller
     public function delete(Request  $request)
     {
       Invest::findOrFail($request->id)->delete();
-    
+
       return redirect('/home');
     }
-    
+
     /**
      * Refresh Invest
      *
@@ -93,7 +130,7 @@ class HomeController extends Controller
      */
     public function refresh_value_real(Request  $request)
     {
-      
+
       $key = 'key_coinmarketcap_ticker';
       $minutes = 10;
       $json_raw = Cache::remember($key, $minutes, function () {
@@ -105,7 +142,7 @@ class HomeController extends Controller
       foreach ($json as $key => $value) {
         $map[$value->symbol] = $value;
       }
-      
+
       $invests = Invest::orderBy('value_real', "DESC")->get();
       foreach ($invests as $key => $invest) {
         $type = $invest->type;
@@ -115,7 +152,7 @@ class HomeController extends Controller
           $invest->save();
         }
       }
-    
+
       return redirect('/home');
     }
 }

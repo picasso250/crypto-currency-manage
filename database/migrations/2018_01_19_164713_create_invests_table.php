@@ -20,7 +20,7 @@ class CreateInvestsTable extends Migration
             $table->string('type');
             $table->decimal('value', 20, 10);
             $table->decimal('value_real', 20, 2);
-            $table->string('site');
+            $table->string('site')->nullable();
             $table->timestamps();
         });
     }
