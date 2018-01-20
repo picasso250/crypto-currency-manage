@@ -27,11 +27,33 @@ class HomeController extends Controller
      */
     public function index()
     {
+        $key = 'key_coinmarketcap_ticker';
+        $minutes = 10;
+        $json_raw = Cache::remember($key, $minutes, function () {
+            $json_raw = file_get_contents('https://api.coinmarketcap.com/v1/ticker/');
+            return $json_raw;
+        });
+        $json = json_decode($json_raw);
+        $map = [];
+        foreach ($json as $key => $value) {
+          $map[$value->symbol] = $value;
+        }
+
         $invests = Invest::orderBy('value_real', "DESC")->get();
+        foreach ($invests as $key => $invest) {
+          $type = $invest->type;
+          if (isset($map[$type])) {
+            $value_real = $invest->value * $map[$type]->price_usd;
+            $invest->value_real = $value_real;
+            $invest->save();
+          }
+        }
         $total = $invests->sum('value_real');
+        include __DIR__.'/../helpers.php';
         return view('home', [
           'invests' => $invests,
           'total' => $total,
+          'price_map' => $map,
         ]);
     }
 

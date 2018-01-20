@@ -61,6 +61,11 @@
                             </div>
                         </div>
                     </form>
+                    <form action="/invest/{{ $invest->id }}" method="POST">
+                        {{ csrf_field() }}
+                        {{ method_field('DELETE') }}
+                        <button class="btn btn-danger btn-sm pull-right" >删除</button>
+                    </form>
 
                 </div>
             </div>

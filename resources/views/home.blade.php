@@ -15,7 +15,6 @@
                     @endif
 
                     <a href="/invest/add" class="btn btn-default">增加投资项目</a>
-                    <a href="/invest/refresh/value/real" class="btn btn-default pull-right">刷新价格</a>
 
                     <table class="table">
                       <thead>
@@ -24,6 +23,7 @@
                           <th>值</th>
                           <th>值(USD)</th>
                           <th>网站</th>
+                          <th>7天</th>
                           <th>操作</th>
                         </tr>
                       </thead>
@@ -33,15 +33,10 @@
                             <td>{{ $invest->type }}</td>
                             <td><strong>{{ $invest->value }}</strong></td>
                             <td><strong>{{ $invest->value_real }}</strong></td>
-                            <td><a href="{{ $invest->site }}">{{ $invest->site }}</a></td>
+                            <td><a href="{{ $invest->site }}">{{ get_host_of_url($invest->site) }}</a></td>
+                            <td>{{ isset($price_map[$invest->type]) ? $price_map[$invest->type]->percent_change_7d : '?' }}%</td>
                             <td>
-                              <form action="/invest/{{ $invest->id }}" method="POST">
-                                  {{ csrf_field() }}
-                                  {{ method_field('DELETE') }}
-
-                                  <button class="btn btn-danger btn-sm" >Delete</button>
-                              </form>
-                              <a href="/invest/{{ $invest->id }}/edit" class="btn btn-default btn-sm">编辑</a>
+                              <a href="/invest/{{ $invest->id }}/edit" class="btn btn-default btn-sm">删/编辑</a>
                             </td>
                           </tr>
                         @endforeach
