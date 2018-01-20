@@ -31,8 +31,8 @@
                         @foreach ($invests as $invest)
                           <tr>
                             <td>{{ $invest->type }}</td>
-                            <td><strong>{{ $invest->value }}</strong></td>
-                            <td><strong>{{ $invest->value_real }}</strong></td>
+                            <td>{{ $invest->value }}</td>
+                            <td><strong>{{ round($invest->value_real, 2) }}</strong></td>
                             <td><a href="{{ $invest->site }}">{{ get_host_of_url($invest->site) }}</a></td>
                             <td>{{ isset($price_map[$invest->type]) ? $price_map[$invest->type]->percent_change_7d : '?' }}%</td>
                             <td>
@@ -43,7 +43,7 @@
                         <tr>
                           <td>总值</td>
                           <td></td>
-                          <td><strong>{{ $total }}</strong></td>
+                          <td><strong>{{ round($total,2) }}</strong></td>
                           <td></td>
                           <td>
                           </td>
