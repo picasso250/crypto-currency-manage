@@ -93,8 +93,7 @@
                 </div>
 
                 <div class="links">
-
-                    <a href="https://github.com/laravel/laravel">GitHub</a>
+                    <a href="https://github.com/picasso250/crypto-currency-manage">GitHub</a>
                 </div>
             </div>
         </div>
