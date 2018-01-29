@@ -27,7 +27,8 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $invests = Invest::orderBy('value_real', "DESC")->get();
+        $invests = Invest::where('user_id', '=', Auth::id())
+          ->orderBy('value_real', "DESC")->get();
         $total = $invests->sum('value_real');
         return view('home', [
           'invests' => $invests,
