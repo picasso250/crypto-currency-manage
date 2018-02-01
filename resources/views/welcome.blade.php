@@ -91,7 +91,7 @@
                 </div>
 
                 <div class="description">
-                    Know Your Crypto-Currency's value at once.
+                    Know Your Crypto-Currency's Value At Once
                 </div>
 
                 <div class="links">
