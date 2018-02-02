@@ -88,7 +88,7 @@ class HomeController extends Controller
 
       $inv = new Invest;
       $inv->user_id = Auth::id();
-      $inv->type = $request->type;
+      $inv->type = strtoupper($request->type);
       $inv->value = $request->value;
       $inv->value_real = 0;
       $inv->site = $request->site;
